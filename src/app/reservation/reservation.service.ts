@@ -1,5 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Reservation } from '../models/reservation';
+import { Apollo } from 'apollo-angular';
+import { Observable } from 'rxjs';
+import {
+  CREATE_HOTELRESERVATION,
+  GET_HOTELRESERVATION,
+} from './reservation.graphql';
 
 @Injectable({
   providedIn: 'root',
@@ -7,31 +13,32 @@ import { Reservation } from '../models/reservation';
 export class ReservationService {
   private reservations: Reservation[] = [];
 
-  constructor() {}
+  constructor(private apollo: Apollo) {}
 
   // CRUD
-  getReservations(): Reservation[] {
-    return this.reservations;
+  getReservations(): Observable<any> {
+    return this.apollo.watchQuery({ query: GET_HOTELRESERVATION }).valueChanges;
   }
 
   getReservation(id: string): Reservation | undefined {
     var res = this.reservations.find(
-      (reservation: Reservation) => reservation.id == id
+      (reservation: Reservation) => reservation.hotelRecordId == id
     );
     return res;
   }
 
-  createReservation(model: Reservation): void {
-    const reservation: Reservation = {
-      id: this.generateUID(),
-      ...model,
-    };
-    this.reservations.push(reservation);
+  createReservation(model: Reservation): Observable<any> {
+    const reservation: Reservation = model;
+
+    return this.apollo.mutate({
+      mutation: CREATE_HOTELRESERVATION,
+      variables: reservation,
+    });
   }
 
   updateReservation(model: Reservation): void {
     this.reservations = this.reservations.map((reservation: Reservation) => {
-      if (model.id === reservation.id) {
+      if (model.hotelRecordId === reservation.hotelRecordId) {
         return { ...reservation, ...model };
       }
       return reservation;
@@ -40,21 +47,7 @@ export class ReservationService {
 
   deleteReservation(id: string): void {
     this.reservations = this.reservations.filter(
-      (reservation: Reservation) => reservation.id != id
+      (reservation: Reservation) => reservation.hotelRecordId != id
     );
-  }
-
-  generateUID(): string {
-    const prefix = 'HBR';
-    const id_list = this.reservations.map((reservation: Reservation) => {
-      if (reservation.id) {
-        return parseInt(reservation.id.slice(3));
-      }
-      return 0;
-    });
-    const nextNum = Math.max(...id_list) + 1;
-    const nextId = `${prefix}${nextNum.toString().padStart(3, '0')}`;
-
-    return nextId;
   }
 }

@@ -1,8 +1,9 @@
 export interface Reservation {
-  id?: string;
-  checkInDate: Date;
-  checkOutDate: Date;
+  hotelRecordId?: string;
+  checkInDate: string;
+  checkOutDate: string;
   guestName: string;
   guestEmail: string;
   roomNumber: number;
+  status?: string;
 }
