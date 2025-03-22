@@ -4,6 +4,7 @@ import { Apollo } from 'apollo-angular';
 import { Observable } from 'rxjs';
 import {
   CREATE_HOTELRESERVATION,
+  DELETE_HOTELRESERVATION,
   GET_HOTELRESERVATION,
 } from './reservation.graphql';
 
@@ -45,9 +46,11 @@ export class ReservationService {
     });
   }
 
-  deleteReservation(id: string): void {
-    this.reservations = this.reservations.filter(
-      (reservation: Reservation) => reservation.hotelRecordId != id
-    );
+  deleteReservation(id: string): Observable<any> {
+    const hotelRecordId = id;
+    return this.apollo.mutate({
+      mutation: DELETE_HOTELRESERVATION,
+      variables: { hotelRecordId: hotelRecordId },
+    });
   }
 }

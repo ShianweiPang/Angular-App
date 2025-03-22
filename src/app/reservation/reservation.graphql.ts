@@ -37,3 +37,12 @@ export const CREATE_HOTELRESERVATION = gql`
     }
   }
 `;
+
+export const DELETE_HOTELRESERVATION = gql`
+  mutation ExampleQuery($hotelRecordId: String!) {
+    deleteHotelReservation(hotelRecordId: $hotelRecordId) {
+      acknowledged
+      deletedCount
+    }
+  }
+`;
