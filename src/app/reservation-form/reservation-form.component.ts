@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ReservationService } from '../reservation/reservation.service';
 import { Reservation } from '../models/reservation';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-reservation-form',
@@ -13,40 +14,76 @@ import { Router } from '@angular/router';
 export class ReservationFormComponent implements OnInit {
   reservationForm: FormGroup = new FormGroup({});
   creationResult: Reservation | undefined;
-
+  currReservation: Reservation | undefined;
+  date = null;
   constructor(
     private formBuilder: FormBuilder,
     private reservationService: ReservationService,
-    private router: Router
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
+    private datePipe: DatePipe
   ) {}
 
   ngOnInit(): void {
     this.reservationForm = this.formBuilder.group({
-      checkInDate: ['', Validators.required],
-      checkOutDate: ['', Validators.required],
+      dateRange: [null, Validators.required],
       guestName: ['', Validators.required],
       guestEmail: ['', [Validators.required, Validators.email]],
       roomNumber: ['', Validators.required],
     });
+    let id = this.activatedRoute.snapshot.paramMap.get('id');
+    if (id) {
+      this.reservationService.getReservation(id).subscribe((res) => {
+        const checkInDate = this.datePipe.transform(
+          res.data.record.checkInDate,
+          'yyyy-MM-dd'
+        );
+        const checkOutDate = this.datePipe.transform(
+          res.data.record.checkOutDate,
+          'yyyy-MM-dd'
+        );
+        this.currReservation = {
+          ...res.data.record,
+          checkInDate,
+          checkOutDate,
+        };
+        if (this.currReservation) {
+          this.reservationForm.patchValue(this.currReservation);
+        }
+      });
+    }
   }
 
   onSubmit() {
     if (this.reservationForm.valid) {
+      const [checkIn, checkOut] = this.reservationForm.value.dateRange;
+
       let reservation: Reservation = {
         ...this.reservationForm.value,
-        checkInDate: new Date(
-          this.reservationForm.value.checkInDate
-        ).toISOString(),
-        checkOutDate: new Date(
-          this.reservationForm.value.checkOutDate
-        ).toISOString(),
+        checkInDate: new Date(checkIn).toISOString(),
+        checkOutDate: new Date(checkOut).toISOString(),
       };
-      this.reservationService
-        .createReservation(reservation)
-        .subscribe((res) => {
-          this.creationResult = res.data.createHotelReservation; // can create a modal afterwards
-          this.router.navigate(['/list']);
-        });
+
+      let id = this.activatedRoute.snapshot.paramMap.get('id');
+      if (id) {
+        this.reservationService
+          .updateReservation({ ...reservation, hotelRecordId: id })
+          .subscribe((res) => {
+            console.log(res.data.updateHotelReservation);
+            alert(res.data.updateHotelReservation.acknowledged);
+          });
+      } else {
+        this.reservationService
+          .createReservation(reservation)
+          .subscribe((res) => {
+            this.creationResult = res.data.createHotelReservation; // can create a modal afterwards
+            this.router.navigate(['/list']);
+          });
+      }
     }
+  }
+
+  dateOnChange(result: Date[]) {
+    console.log('onChange: ', result);
   }
 }

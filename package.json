@@ -23,6 +23,9 @@
     "@apollo/client": "^3.13.4",
     "apollo-angular": "^10.0.3",
     "express": "^4.18.2",
+    "moment": "^2.30.1",
+    "moment-timezone": "^0.5.48",
+    "ng-zorro-antd": "^19.2.1",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.15.0"

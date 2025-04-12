@@ -5,7 +5,9 @@ import { Observable } from 'rxjs';
 import {
   CREATE_HOTELRESERVATION,
   DELETE_HOTELRESERVATION,
+  GET_ALL_HOTELRESERVATION,
   GET_HOTELRESERVATION,
+  UPDATE_HOTELRESERVATION,
 } from './reservation.graphql';
 
 @Injectable({
@@ -18,14 +20,16 @@ export class ReservationService {
 
   // CRUD
   getReservations(): Observable<any> {
-    return this.apollo.watchQuery({ query: GET_HOTELRESERVATION }).valueChanges;
+    return this.apollo.watchQuery({ query: GET_ALL_HOTELRESERVATION })
+      .valueChanges;
   }
 
-  getReservation(id: string): Reservation | undefined {
-    var res = this.reservations.find(
-      (reservation: Reservation) => reservation.hotelRecordId == id
-    );
-    return res;
+  getReservation(id: string): Observable<any> {
+    const hotelRecordId = id;
+    return this.apollo.query({
+      query: GET_HOTELRESERVATION,
+      variables: { hotelRecordId: hotelRecordId },
+    });
   }
 
   createReservation(model: Reservation): Observable<any> {
@@ -37,12 +41,12 @@ export class ReservationService {
     });
   }
 
-  updateReservation(model: Reservation): void {
-    this.reservations = this.reservations.map((reservation: Reservation) => {
-      if (model.hotelRecordId === reservation.hotelRecordId) {
-        return { ...reservation, ...model };
-      }
-      return reservation;
+  updateReservation(model: Reservation): Observable<any> {
+    const reservation: Reservation = model;
+
+    return this.apollo.mutate({
+      mutation: UPDATE_HOTELRESERVATION,
+      variables: reservation,
     });
   }
 

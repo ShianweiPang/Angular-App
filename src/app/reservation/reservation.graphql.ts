@@ -1,5 +1,5 @@
 import { gql } from 'apollo-angular';
-export const GET_HOTELRESERVATION = gql`
+export const GET_ALL_HOTELRESERVATION = gql`
   query {
     records {
       hotelRecordId
@@ -8,6 +8,20 @@ export const GET_HOTELRESERVATION = gql`
       guestName
       guestEmail
       roomNumber
+    }
+  }
+`;
+
+export const GET_HOTELRESERVATION = gql`
+  query ($hotelRecordId: String!) {
+    record(hotelRecordId: $hotelRecordId) {
+      roomNumber
+      guestEmail
+      guestName
+      guestEmail
+      roomNumber
+      checkInDate
+      checkOutDate
     }
   }
 `;
@@ -34,6 +48,30 @@ export const CREATE_HOTELRESERVATION = gql`
       checkInDate
       checkOutDate
       status
+    }
+  }
+`;
+
+export const UPDATE_HOTELRESERVATION = gql`
+  mutation UpdateQuery(
+    $hotelRecordId: String!
+    $guestName: String!
+    $guestEmail: String!
+    $roomNumber: Int!
+    $checkInDate: DateTime!
+    $checkOutDate: DateTime!
+  ) {
+    updateHotelReservation(
+      hotelRecordId: $hotelRecordId
+      guestName: $guestName
+      guestEmail: $guestEmail
+      roomNumber: $roomNumber
+      checkInDate: $checkInDate
+      checkOutDate: $checkOutDate
+    ) {
+      acknowledged
+      matchedCount
+      modifiedCount
     }
   }
 `;

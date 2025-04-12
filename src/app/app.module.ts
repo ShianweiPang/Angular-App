@@ -16,10 +16,27 @@ import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { environment } from '../environments/environment';
 import { apiInterceptor } from '../app/interceptors/http.interceptors';
 import { setContext } from '@apollo/client/link/context';
+import { registerLocaleData } from '@angular/common';
+import en from '@angular/common/locales/en';
+import { FormsModule } from '@angular/forms';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
+// ng-zorro module
+import { NzLayoutModule } from 'ng-zorro-antd/layout';
+import { provideNzI18n } from 'ng-zorro-antd/i18n';
+import { en_US } from 'ng-zorro-antd/i18n';
+
+registerLocaleData(en);
 @NgModule({
   declarations: [AppComponent],
-  imports: [BrowserModule, AppRoutingModule, HomeModule, ReservationModule],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    HomeModule,
+    ReservationModule,
+    FormsModule,
+    NzLayoutModule,
+  ],
   providers: [
     provideClientHydration(withEventReplay()),
     provideHttpClient(withInterceptors([apiInterceptor])),
@@ -44,6 +61,9 @@ import { setContext } from '@apollo/client/link/context';
         cache: new InMemoryCache(),
       };
     }),
+    provideNzI18n(en_US),
+    provideAnimationsAsync(),
+    provideHttpClient(),
   ],
   bootstrap: [AppComponent],
 })

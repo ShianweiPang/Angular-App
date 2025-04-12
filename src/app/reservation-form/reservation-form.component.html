@@ -1,68 +1,56 @@
-<form [formGroup]="reservationForm" (ngSubmit)="onSubmit()">
-  <div>
-    <label>Check in Date:</label>
-    <input type="date" formControlName="checkInDate" />
-    <div
-      *ngIf="
-        reservationForm.get('checkInDate')?.invalid &&
-        reservationForm.get('checkInDate')?.touched
-      "
+<app-home></app-home>
+<br />
+<form
+  nz-form
+  nzLayout="horizontal"
+  [formGroup]="reservationForm"
+  (ngSubmit)="onSubmit()"
+>
+  <nz-form-item>
+    <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired
+      >Check in / Check Out Date</nz-form-label
     >
-      Check in date is required
-    </div>
-  </div>
-
-  <div>
-    <label>Check out Date:</label>
-    <input type="date" formControlName="checkOutDate" />
-    <div
-      *ngIf="
-        reservationForm.get('checkOutDate')?.invalid &&
-        reservationForm.get('checkOutDate')?.touched
-      "
+    <nz-form-control
+      [nzSm]="14"
+      [nzXs]="24"
+      nzErrorTip="Check in / check out date is required"
     >
-      Check out date is required
-    </div>
-  </div>
+      <nz-range-picker formControlName="dateRange" />
+    </nz-form-control>
+  </nz-form-item>
 
-  <div>
-    <label>Guest Name:</label>
-    <input type="text" formControlName="guestName" />
-    <div
-      *ngIf="
-        reservationForm.get('guestName')?.invalid &&
-        reservationForm.get('guestName')?.touched
-      "
+  <nz-form-item>
+    <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired>Guest Name</nz-form-label>
+    <nz-form-control
+      [nzSm]="14"
+      [nzXs]="24"
+      nzErrorTip="Guest Name is required"
     >
-      Guest Name is required
-    </div>
-  </div>
+      <input nz-input formControlName="guestName" />
+    </nz-form-control>
+  </nz-form-item>
 
-  <div>
-    <label>Guest Email:</label>
-    <input type="text" formControlName="guestEmail" />
-    <div
-      *ngIf="
-        reservationForm.get('guestEmail')?.invalid &&
-        reservationForm.get('guestEmail')?.touched
-      "
+  <nz-form-item>
+    <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired>Guest Email</nz-form-label>
+    <nz-form-control
+      [nzSm]="14"
+      [nzXs]="24"
+      nzErrorTip="Guest Email is required"
     >
-      Guest Email is required
-    </div>
-  </div>
+      <input nz-input formControlName="guestEmail" nzType="email" />
+    </nz-form-control>
+  </nz-form-item>
 
-  <div>
-    <label>Room Number:</label>
-    <input type="number" formControlName="roomNumber" />
-    <div
-      *ngIf="
-        reservationForm.get('roomNumber')?.invalid &&
-        reservationForm.get('roomNumber')?.touched
-      "
+  <nz-form-item>
+    <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired>Room Number</nz-form-label>
+    <nz-form-control
+      [nzSm]="14"
+      [nzXs]="24"
+      nzErrorTip="Room Number is required"
     >
-      Room Number is required
-    </div>
-  </div>
+      <nz-input-number formControlName="roomNumber" nzMin="1" nzMax="100" />
+    </nz-form-control>
+  </nz-form-item>
 
-  <button type="submit" [disabled]="reservationForm.invalid">Submit</button>
+  <button nz-button type="submit">Submit</button>
 </form>

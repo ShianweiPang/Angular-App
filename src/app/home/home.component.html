@@ -1,5 +1,27 @@
 <div>
-  <h2>Welcome to the Hotel Reservation Portal</h2>
-  <button [routerLink]="['/new']">Make a Reservation</button>
-  <button [routerLink]="['/list']">Check my Reservation</button>
+  <nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }" nzJustify="start">
+    <nz-col [nzXs]="24" [nzSm]="12" [nzMd]="6" [nzLg]="4">
+      <button
+        nz-button
+        nzType="default"
+        nzShape="round"
+        [routerLink]="['/new']"
+        style="width: 100%"
+      >
+        Make a Reservation
+      </button>
+    </nz-col>
+
+    <nz-col [nzXs]="24" [nzSm]="12" [nzMd]="6" [nzLg]="4">
+      <button
+        nz-button
+        nzType="default"
+        nzShape="round"
+        [routerLink]="['/list']"
+        style="width: 100%"
+      >
+        Check my Reservation
+      </button>
+    </nz-col>
+  </nz-row>
 </div>
