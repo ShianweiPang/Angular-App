@@ -47,8 +47,12 @@ export class ReservationFormComponent implements OnInit {
           checkInDate,
           checkOutDate,
         };
+        const dateRange = [checkInDate, checkOutDate];
         if (this.currReservation) {
-          this.reservationForm.patchValue(this.currReservation);
+          this.reservationForm.patchValue({
+            ...this.currReservation,
+            dateRange: dateRange,
+          });
         }
       });
     }
@@ -69,8 +73,7 @@ export class ReservationFormComponent implements OnInit {
         this.reservationService
           .updateReservation({ ...reservation, hotelRecordId: id })
           .subscribe((res) => {
-            console.log(res.data.updateHotelReservation);
-            alert(res.data.updateHotelReservation.acknowledged);
+            this.router.navigate(['/list']);
           });
       } else {
         this.reservationService

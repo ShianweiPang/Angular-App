@@ -1,56 +1,64 @@
-<app-home></app-home>
-<br />
-<form
-  nz-form
-  nzLayout="horizontal"
-  [formGroup]="reservationForm"
-  (ngSubmit)="onSubmit()"
->
-  <nz-form-item>
-    <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired
-      >Check in / Check Out Date</nz-form-label
+<div nz-flex nzJustify="center">
+  <div>
+    <app-home></app-home>
+    <br />
+    <form
+      nz-form
+      nzLayout="horizontal"
+      [formGroup]="reservationForm"
+      (ngSubmit)="onSubmit()"
     >
-    <nz-form-control
-      [nzSm]="14"
-      [nzXs]="24"
-      nzErrorTip="Check in / check out date is required"
-    >
-      <nz-range-picker formControlName="dateRange" />
-    </nz-form-control>
-  </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSm]="12" [nzXs]="24" nzRequired
+          >Check in / Check Out Date</nz-form-label
+        >
+        <nz-form-control nzErrorTip="Check in / check out date is required">
+          <nz-range-picker formControlName="dateRange" />
+        </nz-form-control>
+      </nz-form-item>
 
-  <nz-form-item>
-    <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired>Guest Name</nz-form-label>
-    <nz-form-control
-      [nzSm]="14"
-      [nzXs]="24"
-      nzErrorTip="Guest Name is required"
-    >
-      <input nz-input formControlName="guestName" />
-    </nz-form-control>
-  </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSm]="12" [nzXs]="24" nzRequired
+          >Guest Name</nz-form-label
+        >
+        <nz-form-control nzErrorTip="Guest Name is required">
+          <input nz-input formControlName="guestName" />
+        </nz-form-control>
+      </nz-form-item>
 
-  <nz-form-item>
-    <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired>Guest Email</nz-form-label>
-    <nz-form-control
-      [nzSm]="14"
-      [nzXs]="24"
-      nzErrorTip="Guest Email is required"
-    >
-      <input nz-input formControlName="guestEmail" nzType="email" />
-    </nz-form-control>
-  </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSm]="12" [nzXs]="24" nzRequired
+          >Guest Email</nz-form-label
+        >
+        <nz-form-control nzErrorTip="Guest Email is required">
+          <input nz-input formControlName="guestEmail" nzType="email" />
+        </nz-form-control>
+      </nz-form-item>
 
-  <nz-form-item>
-    <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired>Room Number</nz-form-label>
-    <nz-form-control
-      [nzSm]="14"
-      [nzXs]="24"
-      nzErrorTip="Room Number is required"
-    >
-      <nz-input-number formControlName="roomNumber" nzMin="1" nzMax="100" />
-    </nz-form-control>
-  </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSm]="12" [nzXs]="24" nzRequired
+          >Room Number</nz-form-label
+        >
+        <nz-form-control nzErrorTip="Room Number is required">
+          <nz-input-number
+            formControlName="roomNumber"
+            nzMin="1"
+            nzMax="1000"
+          />
+        </nz-form-control>
+      </nz-form-item>
 
-  <button nz-button type="submit">Submit</button>
-</form>
+      <div nz-flex nzJustify="flex-end">
+        <button
+          nz-button
+          nzType="primary"
+          nzShape="round"
+          type="submit"
+          [disabled]="reservationForm.invalid"
+        >
+          Submit
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

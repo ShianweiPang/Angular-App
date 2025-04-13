@@ -1,9 +1,23 @@
 <div>
   <nz-layout class="layout">
     <nz-header>
-      <h1>Welcome to the Hotel Reservation Portal</h1>
+      <nz-space nzSplit="8">
+        <button
+          nzAlign="center"
+          nz-button
+          *nzSpaceItem
+          [routerLink]="['/']"
+          nzType="text"
+        >
+          <h1>Let's Go</h1>
+        </button>
+        <!-- <a *nzSpaceItem>Link</a>
+        <a *nzSpaceItem>Link</a>
+        <a *nzSpaceItem>Link</a> -->
+      </nz-space>
     </nz-header>
-    <nz-content>
+    <nz-content class="outer-content">
+      <h1></h1>
       <div class="inner-content">
         <router-outlet />
       </div>

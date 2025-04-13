@@ -20,8 +20,10 @@ export class ReservationService {
 
   // CRUD
   getReservations(): Observable<any> {
-    return this.apollo.watchQuery({ query: GET_ALL_HOTELRESERVATION })
-      .valueChanges;
+    return this.apollo.query({
+      query: GET_ALL_HOTELRESERVATION,
+      fetchPolicy: 'network-only',
+    });
   }
 
   getReservation(id: string): Observable<any> {

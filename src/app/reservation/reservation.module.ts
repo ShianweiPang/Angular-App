@@ -10,6 +10,16 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzFormModule, NzFormTooltipIcon } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
+import { NzAlign, NzFlexModule, NzJustify } from 'ng-zorro-antd/flex';
+import { NzGridModule } from 'ng-zorro-antd/grid';
+import {
+  NzTableFilterFn,
+  NzTableFilterList,
+  NzTableModule,
+  NzTableSortFn,
+  NzTableSortOrder,
+} from 'ng-zorro-antd/table';
+import { NzDividerModule } from 'ng-zorro-antd/divider';
 
 @NgModule({
   declarations: [ReservationFormComponent, ReservationListComponent],
@@ -24,6 +34,10 @@ import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
     NzFormModule,
     NzInputModule,
     NzInputNumberModule,
+    NzFlexModule,
+    NzGridModule,
+    NzTableModule,
+    NzDividerModule,
   ],
   providers: [DatePipe], // ✅ Add DatePipe here
 })

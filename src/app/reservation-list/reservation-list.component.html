@@ -1,21 +1,52 @@
 <h1>Reservation List</h1>
 <ul *ngIf="reservations.length; else noReservation">
-  <li *ngFor="let reservation of reservations">
-    Reservation ID: {{ reservation.hotelRecordId }} <br />
-    Guest: {{ reservation.guestName }}<br />
-    Guest Email: {{ reservation.guestEmail }} <br />
-    Room Number: {{ reservation.roomNumber }} <br />
-    Check In Date: {{ reservation.checkInDate }} <br />
-    Check Out Date: {{ reservation.checkOutDate }} <br />
-    <div>
-      <button (click)="deleteReservation(reservation.hotelRecordId!)">
-        Delete
-      </button>
-    </div>
-    <div>
-      <button [routerLink]="['/edit', reservation.hotelRecordId]">Edit</button>
-    </div>
-  </li>
+  <nz-table #filterTable [nzData]="reservations" nzTableLayout="fixed">
+    <thead>
+      <tr>
+        @for (column of columns; track column) {
+        <th
+          [nzSortOrder]="column.sortOrder ?? null"
+          [nzSortFn]="column.sortFn ?? null"
+          [nzSortDirections]="column.sortDirections ?? []"
+          [nzFilterMultiple]="column.filterMultiple ?? false"
+          [nzFilters]="column.listOfFilter ?? []"
+          [nzFilterFn]="column.filterFn ?? null"
+        >
+          {{ column.name }}
+        </th>
+        }
+      </tr>
+    </thead>
+    <tbody>
+      @for (reservation of filterTable.data; track reservation) {
+      <tr>
+        <td>{{ reservation.hotelRecordId }}</td>
+        <td>{{ reservation.guestName }}</td>
+        <td>{{ reservation.guestEmail }}</td>
+        <td>{{ reservation.roomNumber }}</td>
+        <td>{{ reservation.checkInDate }}</td>
+        <td>{{ reservation.checkOutDate }}</td>
+        <td>
+          <a (click)="deleteReservation(reservation.hotelRecordId!)">Delete</a>
+          <nz-divider nzType="vertical"></nz-divider>
+          <a [routerLink]="['/edit', reservation.hotelRecordId]">Edit</a>
+        </td>
+        <!-- <td>
+          <a nz-popconfirm nzPopconfirmTitle="Sure to cancel?" (nzOnConfirm)="cancelEdit(data.id)">Cancel</a>
+        </td> -->
+        <!-- 
+        <div>
+          <button (click)="">
+            Delete
+          </button>
+        </div>
+        <div>
+          <button [routerLink]="['/edit', reservation.hotelRecordId]">Edit</button>
+        </div> -->
+      </tr>
+      }
+    </tbody>
+  </nz-table>
 </ul>
 
 <ng-template #noReservation>

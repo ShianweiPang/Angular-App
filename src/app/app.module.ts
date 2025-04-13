@@ -23,8 +23,13 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 
 // ng-zorro module
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
+import { NzMenuModule } from 'ng-zorro-antd/menu';
+import { NzSpaceModule } from 'ng-zorro-antd/space';
+import { NzAlign, NzFlexModule, NzJustify } from 'ng-zorro-antd/flex';
+import { NzButtonModule, NzButtonSize } from 'ng-zorro-antd/button';
 import { provideNzI18n } from 'ng-zorro-antd/i18n';
 import { en_US } from 'ng-zorro-antd/i18n';
+import { NzTypographyModule } from 'ng-zorro-antd/typography';
 
 registerLocaleData(en);
 @NgModule({
@@ -36,6 +41,11 @@ registerLocaleData(en);
     ReservationModule,
     FormsModule,
     NzLayoutModule,
+    NzMenuModule,
+    NzSpaceModule,
+    NzButtonModule,
+    NzFlexModule,
+    NzTypographyModule,
   ],
   providers: [
     provideClientHydration(withEventReplay()),
